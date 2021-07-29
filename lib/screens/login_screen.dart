@@ -14,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isProgress = false;
+  bool obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +73,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 50.0),
                     child: TextField(
-                      obscureText: true,
-                      decoration:
-                          InputDecoration(hintText: 'Enter the password'),
+                      obscureText: obscureText,
+                      decoration: InputDecoration(
+                        hintText: 'Enter the password',
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              print('hi');
+                              obscureText = !obscureText;
+                              print(obscureText);
+                            });
+                          },
+                          child: Icon(obscureText
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                        ),
+                      ),
                       onChanged: (value) {
                         password = value;
                       },
@@ -95,7 +109,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
 
                         var res = await NetworkHelper.getAuth(body);
-                        if (res.type == 'S') {
+
+                        if (res['type'] == 'S') {
                           Navigator.pushNamed(context, '/dashboard');
                         } else {
                           showDialog(
