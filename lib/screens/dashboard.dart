@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:maintenance_portal/components/data_provider.dart';
+import 'package:maintenance_portal/components/notification_dashboard.dart';
 import 'package:maintenance_portal/components/sidenav.dart';
+import 'package:maintenance_portal/components/work_orders.dart';
+import 'package:maintenance_portal/components/workorders_dashboard.dart';
+import 'package:provider/provider.dart';
 
 class DashBoard extends StatefulWidget {
   @override
@@ -10,13 +15,19 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Maintenance portal'),
-        ),
-        drawer: SideNav(),
-      ),
+    return Consumer<TaskData>(
+      builder: (context, taskdata, child) {
+        return Material(
+          child: Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              title: Text('Maintenance portal'),
+            ),
+            body: taskdata.isNotification ? NotDashboard() : WorkDashboard(),
+            drawer: SideNav(),
+          ),
+        );
+      },
     );
   }
 }

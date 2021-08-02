@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:maintenance_portal/components/data_provider.dart';
+import 'package:maintenance_portal/components/notification_dashboard.dart';
 import 'package:maintenance_portal/screens/dashboard.dart';
 import 'package:maintenance_portal/screens/login_screen.dart';
+import 'package:maintenance_portal/screens/notification_create.dart';
+import 'package:maintenance_portal/screens/notification_update.dart';
 import 'package:maintenance_portal/screens/welcome_screen.dart';
+import 'package:maintenance_portal/screens/workorder_create.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,17 +17,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      create: (context) => TaskData(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        initialRoute: '/dashboard',
+        routes: {
+          '/': (context) => WelcomeScreen(),
+          '/loginpage': (context) => LoginScreen(),
+          '/dashboard': (context) => DashBoard(),
+          '/workordercreate': (context) => WorkorderCreate(),
+          '/notificationcreate': (context) => NotCreate(),
+          '/notupdate': (context) => NotUpdate(),
+        },
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => WelcomeScreen(),
-        '/loginpage': (context) => LoginScreen(),
-        '/dashboard': (context) => DashBoard(),
-      },
     );
   }
 }

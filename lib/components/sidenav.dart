@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'data_provider.dart';
 import 'logout.dart';
 
 class SideNav extends StatefulWidget {
@@ -28,9 +30,24 @@ class _SideNavState extends State<SideNav> {
             ListTile(
               hoverColor: Colors.yellow,
               focusColor: Colors.yellow,
-              leading: Icon(Icons.verified_user),
-              title: Text('Profile'),
-              onTap: () => {Navigator.of(context).pop()},
+              leading: Icon(Icons.favorite),
+              title: Text('Notifications'),
+              onTap: () => {
+                Provider.of<TaskData>(context, listen: false)
+                    .changeNotValue('Not'),
+                Navigator.of(context).pop()
+              },
+            ),
+            ListTile(
+              hoverColor: Colors.yellow,
+              focusColor: Colors.yellow,
+              leading: Icon(Icons.favorite),
+              title: Text('Workorders'),
+              onTap: () => {
+                Provider.of<TaskData>(context, listen: false)
+                    .changeNotValue('Work'),
+                Navigator.of(context).pop()
+              },
             ),
             ListTile(
               leading: Icon(Icons.exit_to_app),
