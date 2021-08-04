@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:maintenance_portal/components/data_provider.dart';
+import 'package:maintenance_portal/components/network_helper.dart';
 import 'package:maintenance_portal/components/notification_dashboard.dart';
 import 'package:maintenance_portal/components/sidenav.dart';
 import 'package:maintenance_portal/components/work_orders.dart';
@@ -21,7 +22,8 @@ class _DashBoardState extends State<DashBoard> {
           child: Scaffold(
             appBar: AppBar(
               elevation: 0,
-              title: Text('Maintenance portal'),
+              title: Text(
+                  taskdata.isNotification ? 'Notifications' : 'Workorders'),
             ),
             body: taskdata.isNotification ? NotDashboard() : WorkDashboard(),
             drawer: SideNav(),

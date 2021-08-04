@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:maintenance_portal/components/work_orders.dart';
 
+import 'network_helper.dart';
+import 'notifications.dart';
+
 class NotDashboard extends StatefulWidget {
   const NotDashboard({Key? key}) : super(key: key);
 
@@ -9,6 +12,20 @@ class NotDashboard extends StatefulWidget {
 }
 
 class _NotDashboardState extends State<NotDashboard> {
+  var nolistdata;
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    var body = {'plangroup': '010', 'planplant': 'SA02'};
+    var res = await NetworkHelper.getNoget(body);
+    print(res);
+    nolistdata = res;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -26,26 +43,27 @@ class _NotDashboardState extends State<NotDashboard> {
               elevation: 10.0,
               automaticallyImplyLeading: false,
               bottom: TabBar(
+                labelPadding: EdgeInsets.only(bottom: 10.0),
                 tabs: [
                   Text(
                     'Created',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 20.0,
+                      fontSize: 17.0,
                     ),
                   ),
                   Text(
                     'Completed',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 20.0,
+                      fontSize: 17.0,
                     ),
                   ),
                   Text(
-                    'Released1',
+                    'Released',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 20.0,
+                      fontSize: 17.0,
                     ),
                   ),
                 ],
@@ -55,7 +73,7 @@ class _NotDashboardState extends State<NotDashboard> {
           body: TabBarView(
             children: [
               Tab(
-                child: WorkOrders(),
+                child: Notifications(nolistdata),
               ),
               Tab(
                 child: Text(

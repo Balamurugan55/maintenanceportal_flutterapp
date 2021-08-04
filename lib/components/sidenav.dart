@@ -30,12 +30,14 @@ class _SideNavState extends State<SideNav> {
             ListTile(
               hoverColor: Colors.yellow,
               focusColor: Colors.yellow,
+              selectedTileColor: Colors.black12,
               leading: Icon(Icons.favorite),
               title: Text('Notifications'),
-              onTap: () => {
+              onTap: () async {
+                await Future.delayed(Duration(seconds: 3));
                 Provider.of<TaskData>(context, listen: false)
-                    .changeNotValue('Not'),
-                Navigator.of(context).pop()
+                    .changeNotValue('Not');
+                Navigator.of(context).pop();
               },
             ),
             ListTile(

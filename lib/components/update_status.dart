@@ -1,14 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LoginErrors extends StatefulWidget {
-  const LoginErrors({Key? key}) : super(key: key);
-
+class UpdateStatus extends StatefulWidget {
+  UpdateStatus(this.text, this.color);
+  final text;
+  final color;
   @override
-  _LoginErrorsState createState() => _LoginErrorsState();
+  _UpdateStatusState createState() => _UpdateStatusState();
 }
 
-class _LoginErrorsState extends State<LoginErrors> {
+class _UpdateStatusState extends State<UpdateStatus> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,9 +20,9 @@ class _LoginErrorsState extends State<LoginErrors> {
           child: Column(
             children: [
               Text(
-                'Invalid userid or password',
+                widget.text,
                 style: TextStyle(
-                  color: Colors.red,
+                  color: widget.color,
                   fontWeight: FontWeight.w500,
                   fontSize: 20.0,
                   decoration: TextDecoration.none,

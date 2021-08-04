@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:maintenance_portal/components/network_helper.dart';
 import 'package:maintenance_portal/components/tablerow.dart';
 
-class WorkOrders extends StatefulWidget {
-  WorkOrders(this.wolistdata);
+class Notifications extends StatefulWidget {
+  Notifications(this.nolistdata);
 
-  final wolistdata;
+  final nolistdata;
 
   @override
-  _WorkOrdersState createState() => _WorkOrdersState();
+  _NotificationsState createState() => _NotificationsState();
 }
 
-class _WorkOrdersState extends State<WorkOrders> {
+class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
     return Container(

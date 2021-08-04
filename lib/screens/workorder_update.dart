@@ -5,29 +5,31 @@ import 'package:maintenance_portal/components/status.dart';
 import 'package:maintenance_portal/components/update_status.dart';
 import 'package:provider/provider.dart';
 
-class NotUpdate extends StatefulWidget {
+class WorkOrderUpdate extends StatefulWidget {
+  const WorkOrderUpdate({Key? key}) : super(key: key);
+
   @override
-  _NotUpdateState createState() => _NotUpdateState();
+  _WorkOrderUpdateState createState() => _WorkOrderUpdateState();
 }
 
-class _NotUpdateState extends State<NotUpdate> {
-  bool isProgress = false;
-  var equipid;
-  var func_loc;
-  var malfunc_date;
-  var malfunc_time;
-  var description;
-  var req_sdate;
-  var req_edate;
-  var reported_by;
+class _WorkOrderUpdateState extends State<WorkOrderUpdate> {
+  bool isProgress = true;
+  var wono;
+  var equipno;
+  var wotype;
+  var duration;
   var notno;
+  var nottype;
+  var personno;
+  var description;
+  var op_desc;
   @override
   Widget build(BuildContext context) {
     return Consumer<TaskData>(builder: (context, taskdata, child) {
       return Material(
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Notification update'),
+            title: Text('Workorder update'),
           ),
           body: SafeArea(
             child: Container(
@@ -37,6 +39,38 @@ class _NotUpdateState extends State<NotUpdate> {
                   TextFormField(
                     initialValue: taskdata.NotNoUpdate,
                     decoration: InputDecoration(
+                      labelText: 'Workorder no',
+                    ),
+                    onChanged: (value) {
+                      wono = value;
+                    },
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Equipment no',
+                    ),
+                    onChanged: (value) {
+                      equipno = value;
+                    },
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Workorder type',
+                    ),
+                    onChanged: (value) {
+                      wotype = value;
+                    },
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Duration',
+                    ),
+                    onChanged: (value) {
+                      duration = value;
+                    },
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
                       labelText: 'Notification no',
                     ),
                     onChanged: (value) {
@@ -45,34 +79,10 @@ class _NotUpdateState extends State<NotUpdate> {
                   ),
                   TextField(
                     decoration: InputDecoration(
-                      labelText: 'Equipment id',
+                      labelText: 'Notification type',
                     ),
                     onChanged: (value) {
-                      equipid = value;
-                    },
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Functional location',
-                    ),
-                    onChanged: (value) {
-                      func_loc = value;
-                    },
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Malfunction date',
-                    ),
-                    onChanged: (value) {
-                      malfunc_date = value;
-                    },
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Malfunction time',
-                    ),
-                    onChanged: (value) {
-                      malfunc_time = value;
+                      nottype = value;
                     },
                   ),
                   TextField(
@@ -85,26 +95,18 @@ class _NotUpdateState extends State<NotUpdate> {
                   ),
                   TextField(
                     decoration: InputDecoration(
-                      labelText: 'Reported by',
+                      labelText: 'Operational description',
                     ),
                     onChanged: (value) {
-                      reported_by = value;
+                      op_desc = value;
                     },
                   ),
                   TextField(
                     decoration: InputDecoration(
-                      labelText: 'Request start date',
+                      labelText: 'Personnel no',
                     ),
                     onChanged: (value) {
-                      req_sdate = value;
-                    },
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Request end date',
-                    ),
-                    onChanged: (value) {
-                      req_edate = value;
+                      personno = value;
                     },
                   ),
                   SizedBox(
@@ -114,14 +116,14 @@ class _NotUpdateState extends State<NotUpdate> {
                     onPressed: () async {
                       var body = {
                         'notno': notno,
-                        'equipid': equipid,
-                        'func_loc': func_loc,
-                        'malfunc_date': malfunc_date,
-                        'malfunc_time': malfunc_time,
+                        'nottype': nottype,
+                        'wotype': wotype,
+                        'wono': wono,
                         'description': description,
-                        'reported_by': reported_by,
-                        'req_sdate': req_sdate,
-                        'req_edate': req_edate
+                        'op_desc': op_desc,
+                        'equipid': equipno,
+                        'persono': personno,
+                        'duration': duration
                       };
                       //var res = await NetworkHelper.getAuth(body);
                       //print(res['name'])
@@ -129,25 +131,11 @@ class _NotUpdateState extends State<NotUpdate> {
                         isProgress = true;
                       });
 
-                      var res = await NetworkHelper.getNoup(body);
+                      var res = await NetworkHelper.getWoup(body);
                       print(res);
 
-                      if ('S' == 'S') {
-                        showDialog(
-                          context: context,
-                          builder: (context) =>
-                              Status('Successfully created', Colors.green),
-                        );
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (context) =>
-                              Status('Error occured', Colors.red),
-                        );
-                      }
                       //await Future.delayed(Duration(seconds: 3));
                       //print(isProgress);
-
                       setState(() {
                         isProgress = false;
                       });
