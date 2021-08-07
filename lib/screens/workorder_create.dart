@@ -132,11 +132,12 @@ class _WorkorderCreateState extends State<WorkorderCreate> {
                       isProgress = false;
                     });
 
-                    if ('E' == 'S') {
+                    if (res['RETURN'] == 'S') {
                       showDialog(
                         context: context,
-                        builder: (context) =>
-                            Status('Successfully created', Colors.green),
+                        builder: (context) => Status(
+                            'Successfully created with workorder number ${res['WONO']}',
+                            Colors.green),
                       );
                     } else {
                       showDialog(

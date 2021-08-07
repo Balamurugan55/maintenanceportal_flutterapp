@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:maintenance_portal/components/data_provider.dart';
 import 'package:maintenance_portal/screens/workorder_create.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 import 'network_helper.dart';
 import 'work_orders.dart';
 
@@ -12,7 +15,9 @@ class WorkDashboard extends StatefulWidget {
 }
 
 class _WorkDashboardState extends State<WorkDashboard> {
-  var wolistdata;
+  var wocreated;
+  var wocompleted;
+  var woreleased;
   @override
   void initState() {
     super.initState();
@@ -20,10 +25,17 @@ class _WorkDashboardState extends State<WorkDashboard> {
   }
 
   getData() async {
-    var body = {'plangroup': '010', 'planplant': 'SA02'};
+    var body = {
+      'plangroup': Provider.of<TaskData>(context, listen: false).plangroup,
+      'planplant': Provider.of<TaskData>(context, listen: false).planplant
+    };
     var res = await NetworkHelper.getWoget(body);
     print(res);
-    wolistdata = res;
+    setState(() {
+      wocreated = res['WO_CREATED'];
+      wocompleted = res['WO_COMPLETED'];
+      woreleased = res['WO_RELEASED'];
+    });
   }
 
   @override
@@ -70,29 +82,51 @@ class _WorkDashboardState extends State<WorkDashboard> {
               ),
             ),
           ),
-          body: TabBarView(
-            children: [
-              Tab(
-                child: WorkOrders(wolistdata),
-              ),
-              Tab(
-                child: Text(
-                  'Completed',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 30.0,
-                  ),
+          body: Padding(
+            padding: const EdgeInsets.only(left: 16.0, top: 30.0, right: 16.0),
+            child: TabBarView(
+              children: [
+                Tab(
+                  child: wocreated == null
+                      ? CircularProgressIndicator()
+                      : wocreated.length == 0
+                          ? Text(
+                              'No details found',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: 30.0,
+                              ),
+                            )
+                          : WorkOrders(wocreated),
                 ),
-              ),
-              Tab(
-                child: Text(
-                  'Released',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                  ),
+                Tab(
+                  child: wocompleted == null
+                      ? CircularProgressIndicator()
+                      : wocompleted.length == 0
+                          ? Text(
+                              'No details found',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: 30.0,
+                              ),
+                            )
+                          : WorkOrders(wocompleted),
                 ),
-              ),
-            ],
+                Tab(
+                  child: woreleased == null
+                      ? CircularProgressIndicator()
+                      : woreleased.length == 0
+                          ? Text(
+                              'No details found',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: 30.0,
+                              ),
+                            )
+                          : WorkOrders(woreleased),
+                ),
+              ],
+            ),
           ),
         ),
       ),

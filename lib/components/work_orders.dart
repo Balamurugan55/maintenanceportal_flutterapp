@@ -12,22 +12,32 @@ class WorkOrders extends StatefulWidget {
 }
 
 class _WorkOrdersState extends State<WorkOrders> {
+  List<Widget> rows = [];
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < widget.wolistdata.length; i++) {
+      rows.add(TableRow1(widget.wolistdata[i]['col1'],
+          widget.wolistdata[i]['col2'], widget.wolistdata[i]['col4']));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
-          SizedBox(
-            height: 30.0,
-          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'WO No',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                 ),
+              ),
+              SizedBox(
+                width: 15.0,
               ),
               Text(
                 'Description',
@@ -36,19 +46,7 @@ class _WorkOrdersState extends State<WorkOrders> {
                 ),
               ),
               Text(
-                'Equipment',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Text(
-                'Func loc',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Text(
-                'Created by',
+                'Priority',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                 ),
@@ -60,9 +58,7 @@ class _WorkOrdersState extends State<WorkOrders> {
           ),
           Expanded(
             child: ListView(
-              children: [
-                TableRow1('bala', 'bala', 'bala', 'bala', 'bala'),
-              ],
+              children: rows,
             ),
           ),
         ],

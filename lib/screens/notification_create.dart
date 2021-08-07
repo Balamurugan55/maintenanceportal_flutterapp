@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:maintenance_portal/components/data_provider.dart';
 import 'package:maintenance_portal/components/network_helper.dart';
 import 'package:maintenance_portal/components/status.dart';
+import 'package:provider/provider.dart';
 
 class NotCreate extends StatefulWidget {
   const NotCreate({Key? key}) : super(key: key);
@@ -19,6 +21,8 @@ class _NotCreateState extends State<NotCreate> {
   var req_sdate;
   var req_edate;
   var reported_by;
+  var nottype;
+  var priority;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -31,7 +35,7 @@ class _NotCreateState extends State<NotCreate> {
             padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
             child: ListView(
               children: [
-                TextField(
+                TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Equipment id',
                   ),
@@ -45,6 +49,22 @@ class _NotCreateState extends State<NotCreate> {
                   ),
                   onChanged: (value) {
                     func_loc = value;
+                  },
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Notification type',
+                  ),
+                  onChanged: (value) {
+                    nottype = value;
+                  },
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Priority',
+                  ),
+                  onChanged: (value) {
+                    priority = value;
                   },
                 ),
                 TextField(
@@ -108,7 +128,13 @@ class _NotCreateState extends State<NotCreate> {
                       'description': description,
                       'reported_by': reported_by,
                       'req_sdate': req_sdate,
-                      'req_edate': req_edate
+                      'req_edate': req_edate,
+                      'nottype': nottype,
+                      'priority': priority,
+                      'plangroup': Provider.of<TaskData>(context, listen: false)
+                          .plangroup,
+                      'planplant': Provider.of<TaskData>(context, listen: false)
+                          .planplant
                     };
                     //var res = await NetworkHelper.getAuth(body);
                     //print(res['name'])
@@ -131,11 +157,12 @@ class _NotCreateState extends State<NotCreate> {
                     setState(() {
                       isProgress = false;
                     });
-                    if ('E' == 'S') {
+                    if (res['RETURN'] == 'S') {
                       showDialog(
                         context: context,
-                        builder: (context) =>
-                            Status('Successfully created', Colors.green),
+                        builder: (context) => Status(
+                            'Successfully created with notification number ${res['NOTNO']} ',
+                            Colors.green),
                       );
                     } else {
                       showDialog(

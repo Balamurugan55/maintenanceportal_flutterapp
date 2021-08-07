@@ -11,22 +11,32 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
+  List<Widget> rows = [];
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < widget.nolistdata.length; i++) {
+      rows.add(TableRow1(widget.nolistdata[i]['col1'],
+          widget.nolistdata[i]['col2'], widget.nolistdata[i]['col3']));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
-          SizedBox(
-            height: 30.0,
-          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'WO No',
+                'Notification no',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                 ),
+              ),
+              SizedBox(
+                width: 17.0,
               ),
               Text(
                 'Description',
@@ -35,19 +45,7 @@ class _NotificationsState extends State<Notifications> {
                 ),
               ),
               Text(
-                'Equipment',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Text(
-                'Func loc',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Text(
-                'Created by',
+                'Priority',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                 ),
@@ -59,9 +57,7 @@ class _NotificationsState extends State<Notifications> {
           ),
           Expanded(
             child: ListView(
-              children: [
-                TableRow1('bala', 'bala', 'bala', 'bala', 'bala'),
-              ],
+              children: rows,
             ),
           ),
         ],

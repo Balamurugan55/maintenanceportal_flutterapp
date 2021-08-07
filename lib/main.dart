@@ -7,6 +7,7 @@ import 'package:maintenance_portal/screens/notification_create.dart';
 import 'package:maintenance_portal/screens/notification_update.dart';
 import 'package:maintenance_portal/screens/welcome_screen.dart';
 import 'package:maintenance_portal/screens/workorder_create.dart';
+import 'package:maintenance_portal/screens/workorder_update.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        initialRoute: '/dashboard',
+        initialRoute: '/loginpage',
         routes: {
           '/': (context) => WelcomeScreen(),
           '/loginpage': (context) => LoginScreen(),
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           '/workordercreate': (context) => WorkorderCreate(),
           '/notificationcreate': (context) => NotCreate(),
           '/notupdate': (context) => NotUpdate(),
+          '/woupdate': (context) => WorkOrderUpdate()
         },
       ),
     );

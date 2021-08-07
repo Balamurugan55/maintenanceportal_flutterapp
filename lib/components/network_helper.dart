@@ -9,30 +9,31 @@ const url1 = url + 'mainnotcr';
 final rurl1 = Uri.parse(url1);
 
 const url2 = url + 'mainnotget';
-final rurl2 = Uri.parse(url1);
+final rurl2 = Uri.parse(url2);
 
 const url3 = url + 'mainnotdet';
-final rurl3 = Uri.parse(url1);
+final rurl3 = Uri.parse(url3);
 
 const url4 = url + 'mainnotup';
-final rurl4 = Uri.parse(url1);
+final rurl4 = Uri.parse(url4);
 
 const url5 = url + 'mainwocr';
-final rurl5 = Uri.parse(url1);
+final rurl5 = Uri.parse(url5);
 
 const url6 = url + 'mainwoget';
-final rurl6 = Uri.parse(url1);
+final rurl6 = Uri.parse(url6);
 
 const url7 = url + 'mainwodet';
-final rurl7 = Uri.parse(url1);
+final rurl7 = Uri.parse(url7);
 
 const url8 = url + 'mainwoup';
-final rurl8 = Uri.parse(url1);
+final rurl8 = Uri.parse(url8);
 
 class NetworkHelper {
   static getAuth(body) async {
     print(body);
     var res = await http.post(rurl, body: body);
+    print(res.body);
     return jsonDecode(res.body);
     //var res = await http.get(rurl);
   }

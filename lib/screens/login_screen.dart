@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:maintenance_portal/components/data_provider.dart';
+import 'package:maintenance_portal/components/status.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:maintenance_portal/components/loginerrors.dart';
 import 'package:maintenance_portal/components/network_helper.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -109,13 +112,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
 
                         var res = await NetworkHelper.getAuth(body);
+                        print(res);
 
-                        if (res['type'] == 'S') {
+                        if (res['RETURN']['TYPE'] == 'S') {
+                          Provider.of<TaskData>(context, listen: false)
+                              .updatePlan(res['plangroup'], res['planplant']);
                           Navigator.pushNamed(context, '/dashboard');
                         } else {
                           showDialog(
                               context: context,
-                              builder: (context) => LoginErrors());
+                              builder: (context) => Status(
+                                  'Invalid userid or password', Colors.red));
                         }
                         //await Future.delayed(Duration(seconds: 3));
                         //print(isProgress);
